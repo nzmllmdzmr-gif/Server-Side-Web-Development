@@ -10,6 +10,15 @@ export default function DeletePage() {
     e.preventDefault();
     setMessage("");
 
+    if (!serialNumber) {
+      setMessage("Please enter a serial number.");
+      return;
+    }
+
+    if (!window.confirm("Are you sure you want to delete this appliance?")) {
+      return;
+    }
+
     const response = await fetch("/api/delete", {
       method: "POST",
       headers: {

@@ -1,3 +1,69 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; 
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: lightgray;
+  color: black;
+}
+
+main {
+  max-width: 800px;
+  margin: 30px auto;
+  background: white;
+  padding: 20px;
+  border: 1px solid black;
+}
+
+h1 {
+  color: blue;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: black;
+  margin-top: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+input,
+select {
+  width: 100%;
+  max-width: 400px;
+  padding: 6px;
+  border: 1px solid black;
+  margin-top: 3px;
+}
+
+button {
+  background-color: gray;
+  color: white;
+  border: 1px solid black;
+  padding: 6px 12px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: darkgray;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+
+ul {
+  padding-left: 20px;
+}

@@ -5,13 +5,15 @@ import { useState } from "react";
 export default function UpdatePage() {
   const [serialNumber, setSerialNumber] = useState("");
   const [brand, setBrand] = useState("");
+  const [modelNumber, setModelNumber] = useState("");
+  const [warrantyExpirationDate, setWarrantyExpirationDate] = useState("");
   const [message, setMessage] = useState("");
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     setMessage("");
-    
-    if (!serialNumber || !brand) {
+
+    if (!serialNumber || !brand || !modelNumber || !warrantyExpirationDate) {
       setMessage("Please fill in all fields.");
       return;
     }
@@ -24,6 +26,8 @@ export default function UpdatePage() {
       body: JSON.stringify({
         serialNumber,
         brand,
+        modelNumber,
+        warrantyExpirationDate,
       }),
     });
 
@@ -54,6 +58,24 @@ export default function UpdatePage() {
         <div style={{ marginBottom: "10px" }}>
           <label>New Brand: </label>
           <input value={brand} onChange={(e) => setBrand(e.target.value)} />
+        </div>
+
+        <div style={{ marginBottom: "10px" }}>
+          <label>New Model Number: </label>
+          <input
+            value={modelNumber}
+            onChange={(e) => setModelNumber(e.target.value)}
+            placeholder="123-4567"
+          />
+        </div>
+
+        <div style={{ marginBottom: "10px" }}>
+          <label>New Warranty Expiry Date: </label>
+          <input
+            type="date"
+            value={warrantyExpirationDate}
+            onChange={(e) => setWarrantyExpirationDate(e.target.value)}
+          />
         </div>
 
         <button type="submit">Update</button>

@@ -89,6 +89,7 @@ export default function PartBC() {
             value={formData.firstName}
             onChange={handleChange}
           />
+          {errors.firstName && <p style={{ color: "red" }}>{errors.firstName}</p>}
         </div>
 
         <div style={{ marginBottom: "10px" }}>
@@ -99,6 +100,7 @@ export default function PartBC() {
             value={formData.lastName}
             onChange={handleChange}
           />
+          {errors.lastName && <p style={{ color: "red" }}>{errors.lastName}</p>}
         </div>
 
         <div style={{ marginBottom: "10px" }}>
@@ -109,6 +111,7 @@ export default function PartBC() {
             value={formData.email}
             onChange={handleChange}
           />
+          {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
         </div>
 
         <div style={{ marginBottom: "10px" }}>
@@ -119,6 +122,7 @@ export default function PartBC() {
             value={formData.mobile}
             onChange={handleChange}
           />
+          {errors.mobile && <p style={{ color: "red" }}>{errors.mobile}</p>}
         </div>
         <div style={{ marginBottom: "10px" }}>
           <label>Eircode: </label>

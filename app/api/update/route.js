@@ -5,22 +5,32 @@ export async function POST(request) {
   try {
     const data = await request.json();
 
-    if (!data.serialNumber) {
+    const serialPattern = /^\d{4}-\d{4}-\d{4}$/;
+    const modelPattern = /^\d{3}-\d{4}$/;
+
+    if (!data.modelNumber || !modelPattern.test(data.modelNumber)) {
       return NextResponse.json(
-        { message: "Serial number is required." },
-        { status: 400 }
+        { message: "Model number should be like 123-4567." },
+        { status: 400 },
       );
     }
 
     const [result] = await db.query(
-      "UPDATE Appliances SET Brand = ? WHERE SerialNumber = ?",
-      [data.brand, data.serialNumber]
+      `UPDATE Appliances 
+   SET Brand = ?, ModelNumber = ?, WarrantyExpirationDate = ?
+   WHERE SerialNumber = ?`,
+      [
+        data.brand,
+        data.modelNumber,
+        data.warrantyExpirationDate,
+        data.serialNumber,
+      ],
     );
 
     if (result.affectedRows === 0) {
       return NextResponse.json(
         { message: "Appliance not found." },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -29,9 +39,6 @@ export async function POST(request) {
       message: "Updated successfully.",
     });
   } catch (error) {
-    return NextResponse.json(
-      { message: "Server error." },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Server error." }, { status: 500 });
   }
 }
