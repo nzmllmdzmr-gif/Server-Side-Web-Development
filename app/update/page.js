@@ -10,6 +10,11 @@ export default function UpdatePage() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     setMessage("");
+    
+    if (!serialNumber || !brand) {
+      setMessage("Please fill in all fields.");
+      return;
+    }
 
     const response = await fetch("/api/update", {
       method: "POST",
@@ -48,10 +53,7 @@ export default function UpdatePage() {
 
         <div style={{ marginBottom: "10px" }}>
           <label>New Brand: </label>
-          <input
-            value={brand}
-            onChange={(e) => setBrand(e.target.value)}
-          />
+          <input value={brand} onChange={(e) => setBrand(e.target.value)} />
         </div>
 
         <button type="submit">Update</button>

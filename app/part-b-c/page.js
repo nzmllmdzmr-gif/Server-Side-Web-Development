@@ -4,6 +4,10 @@ import { useState } from "react";
 //store message
 export default function PartBC() {
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
     eircode: "",
     applianceType: "",
     machine: "",
@@ -13,7 +17,7 @@ export default function PartBC() {
     purchaseDate: "",
     warrantyExpirationDate: "",
   });
-//store errors
+  //store errors
   const [errors, setErrors] = useState({});
   //success message
   const [message, setMessage] = useState("");
@@ -27,7 +31,7 @@ export default function PartBC() {
       [name]: value,
     });
   };
-//send data to backend
+  //send data to backend
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -44,7 +48,7 @@ export default function PartBC() {
       });
 
       const result = await response.json();
-//show error message if there are errors
+      //show error message if there are errors
       if (!response.ok) {
         setErrors(result.errors || {});
         return;
@@ -54,6 +58,10 @@ export default function PartBC() {
       setInventoryList([...inventoryList, formData]);
 
       setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        mobile: "",
         eircode: "",
         applianceType: "",
         machine: "",
@@ -73,6 +81,45 @@ export default function PartBC() {
       <h1>Part B and Part C - Appliance Inventory</h1>
 
       <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: "10px" }}>
+          <label>First Name: </label>
+          <input
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div style={{ marginBottom: "10px" }}>
+          <label>Last Name: </label>
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div style={{ marginBottom: "10px" }}>
+          <label>Email: </label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div style={{ marginBottom: "10px" }}>
+          <label>Mobile: </label>
+          <input
+            type="text"
+            name="mobile"
+            value={formData.mobile}
+            onChange={handleChange}
+          />
+        </div>
         <div style={{ marginBottom: "10px" }}>
           <label>Eircode: </label>
           <input

@@ -12,22 +12,29 @@ export default function SearchPage() {
     setResult(null);
     setMessage("");
 
-    const response = await fetch("/api/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ serialNumber }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      setMessage(data.message);
+    if (!serialNumber) {
+      setMessage("Please enter a serial number.");
       return;
     }
 
-    setResult(data.appliance);
+    try {
+      const response = await fetch("/api/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ serialNumber }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMessage(data.message);
+        return;
+      }
+
+      setResult(data.appliance);
+    } catch (error) {
+      setMessage("Server error. Please try again later.");
+    }
   };
 
   return (
@@ -41,7 +48,7 @@ export default function SearchPage() {
             type="text"
             value={serialNumber}
             onChange={(e) => setSerialNumber(e.target.value)}
-            placeholder="1234-5678-9012"
+            placeholder="1234-1234-1234"
           />
         </div>
 
@@ -60,7 +67,9 @@ export default function SearchPage() {
           <p>Purchase Date: {result.PurchaseDate}</p>
           <p>Warranty Date: {result.WarrantyExpirationDate}</p>
           <p>Cost: {result.CostOfAppliance}</p>
-          <p>User: {result.FirstName} {result.LastName}</p>
+          <p>
+            User: {result.FirstName} {result.LastName}
+          </p>
           <p>Email: {result.Email}</p>
         </div>
       )}

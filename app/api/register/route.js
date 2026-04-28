@@ -12,7 +12,7 @@ export async function POST(request) {
     const eircodePattern = /^[A-Z]\d{2}\s?[A-Z0-9]{4}$/i;
     const modelPattern = /^\d{3}-\d{4}$/;
     const serialPattern = /^\d{4}-\d{4}-\d{4}$/;
-//check data
+    //check data
     if (!data.eircode || !eircodePattern.test(data.eircode)) {
       errors.eircode = "Please enter a valid eircode.";
     }
@@ -58,48 +58,50 @@ export async function POST(request) {
     if (Object.keys(errors).length > 0) {
       return NextResponse.json(
         { success: false, errors: errors },
-        { status: 400 }
+        { status: 400 },
       );
     }
-//return errors
-   const [userResult] = await db.query(
-  `INSERT INTO Users 
+    //return errors
+    const [userResult] = await db.query(
+      `INSERT INTO Users 
   (FirstName, LastName, Address, Mobile, Email, Eircode)
   VALUES (?, ?, ?, ?, ?, ?)`,
-  [
-    "Test",
-    "User",
-    "Address",
-    "0871234567",
-    "test@email.com",
-    data.eircode,
-  ]
-);
+      [
+        [
+          data.firstName,
+          data.lastName,
+          "Address",
+          data.mobile,
+          data.email,
+          data.eircode,
+        ],
+      ],
+    );
 
-await db.query(
-  `INSERT INTO Appliances 
+    await db.query(
+      `INSERT INTO Appliances 
   (ApplianceType, Brand, ModelNumber, SerialNumber, PurchaseDate, WarrantyExpirationDate, CostOfAppliance, UserID)
   VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-  [
-    data.applianceType,
-    data.brand,
-    data.modelNumber,
-    data.serialNumber,
-    data.purchaseDate,
-    data.warrantyExpirationDate,
-    100,
-    userResult.insertId,
-  ]
-);
+      [
+        data.applianceType,
+        data.brand,
+        data.modelNumber,
+        data.serialNumber,
+        data.purchaseDate,
+        data.warrantyExpirationDate,
+        100,
+        userResult.insertId,
+      ],
+    );
 
-return NextResponse.json({
-  success: true,
-  message: "Saved to database successfully.",
-});
+    return NextResponse.json({
+      success: true,
+      message: "Saved to database successfully.",
+    });
   } catch (error) {
     return NextResponse.json(
       { success: false, message: "Server error." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

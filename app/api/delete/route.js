@@ -5,22 +5,24 @@ export async function POST(request) {
   try {
     const data = await request.json();
 
-    if (!data.serialNumber) {
+    const serialPattern = /^\d{4}-\d{4}-\d{4}$/;
+
+    if (!data.serialNumber || !serialPattern.test(data.serialNumber)) {
       return NextResponse.json(
-        { message: "Serial number is required." },
-        { status: 400 }
+        { message: "Please enter a valid serial number." },
+        { status: 400 },
       );
     }
 
     const [result] = await db.query(
       "DELETE FROM Appliances WHERE SerialNumber = ?",
-      [data.serialNumber]
+      [data.serialNumber],
     );
 
     if (result.affectedRows === 0) {
       return NextResponse.json(
         { message: "Appliance not found." },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -29,9 +31,6 @@ export async function POST(request) {
       message: "Deleted successfully.",
     });
   } catch (error) {
-    return NextResponse.json(
-      { message: "Server error." },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Server error." }, { status: 500 });
   }
 }
